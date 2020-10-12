@@ -1,7 +1,9 @@
 import { Categoria } from './../../models/categoria';
 import { RepuestosService } from './../../services/repuestos.service';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Repuesto } from 'src/app/models/repuesto';
+import { RepuestosModalGuardarComponent } from './repuestos-modal-guardar/repuestos-modal-guardar.component';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -10,48 +12,18 @@ declare var $: any;
   templateUrl: './repuestos.component.html',
   styleUrls: ['./repuestos.component.css']
 })
-export class RepuestosComponent implements OnInit, OnChanges {
-
-  @Input() id : number;
-  @Input() modoEdicion : boolean;
-
-  repuesto :  Repuesto = {
-    id : 0,
-    Codigo : '',
-    Nombre : '',
-    PrecioCompra : 0,
-    PrecioVenta : 0,
-    idCategoria : 0,
-    Categoria : {id: 0, Descripcion: ''}
-  };
+export class RepuestosComponent implements OnInit {
 
   repuestos: Repuesto[];
   categorias: Categoria[];
   
   constructor(
-    private repuestosService: RepuestosService
+    private repuestosService: RepuestosService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.obtenerRepuestos();
-  }
-
-  ngOnChanges(){
-    if (this.modoEdicion === true)
-    {
-      this.obtenerRepuesto(this.id)
-    }
-    else{
-      this.repuesto = {
-        id : 0,
-        Codigo : '',
-        Nombre : '',
-        PrecioCompra : 0,
-        PrecioVenta : 0,
-        idCategoria : 0,
-        Categoria : {id: 0, Descripcion: ''}
-      };
-    }
   }
 
   obtenerRepuestos(){
@@ -60,27 +32,21 @@ export class RepuestosComponent implements OnInit, OnChanges {
     })
   }
 
-  obtenerRepuesto(id: Number){
-    this.repuestosService.getRepuesto(id).subscribe(res => {
-      this.repuesto = res;
-    });
+  eliminarRepuesto(id: Number){
+    if(confirm("Desea eliminar este registro?")) {
+      this.repuestosService.deleteRepuesto(id).subscribe((data) => {
+        this.toastr.warning("El repuesto se elimino", "Repuesto eliminado");
+        this.obtenerRepuestos();
+      })
+    }
   }
 
-  guardar(repuesto: Repuesto){
-    console.log(repuesto);
-    this.guardarRepuesto(repuesto);
-  }
-
-  guardarRepuesto(repuesto: Repuesto){
-    this.repuestosService.saveRepuesto(repuesto).subscribe((data) => {
-      // if(data){
-      //   this.sendModal();
-      // }
-    })
-  }
-
-  showModal(): void {
+  showSaveModal(){
     $("#myModal").modal('show');
+  }
+
+  showEditModal(){
+    $("#myEditModal").modal('show');
   }
 
 }

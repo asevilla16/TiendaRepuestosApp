@@ -2,11 +2,12 @@
 
 <div class="row">
     <div class="col-md-3">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" (click)="showModal()">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" (click)="showSaveModal()">
             <i class="fa fa-plus"></i>  Nuevo
           </button>
     </div>
-    <app-repuestos-modal></app-repuestos-modal>
+    <app-repuestos-modal-guardar></app-repuestos-modal-guardar>
+    <app-repuestos-modal-editar></app-repuestos-modal-editar>
 </div>
 
 <table class="table table-striped table-hover mt-5">
@@ -27,8 +28,8 @@
             <td>{{ repuesto.categoria.descripcion }}</td>
             <td>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-info"><i class="fas fa-pencil-alt"></i></button>
-                    <button type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-info" (click)="showEditModal()"><i class="fas fa-pencil-alt"></i></button>
+                    <button type="button" class="btn btn-danger" (click)="eliminarRepuesto(repuesto.id)"><i class="fas fa-trash-alt"></i></button>
                 </div>
             </td>
         </tr>

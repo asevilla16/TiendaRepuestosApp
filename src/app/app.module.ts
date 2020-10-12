@@ -7,7 +7,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RepuestosComponent } from './features/repuestos/repuestos.component';
 import { HttpClientModule } from '@angular/common/http';
-import { RepuestosModalComponent } from './features/repuestos/repuestos-modal/repuestos-modal.component';
+import { RepuestosModalGuardarComponent } from './features/repuestos/repuestos-modal-guardar/repuestos-modal-guardar.component';
+import { RepuestosModalEditarComponent } from './features/repuestos/repuestos-modal-editar/repuestos-modal-editar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -15,14 +19,20 @@ import { RepuestosModalComponent } from './features/repuestos/repuestos-modal/re
     FooterComponent,
     HeaderComponent,
     RepuestosComponent,
-    RepuestosModalComponent
+    RepuestosModalGuardarComponent,
+    RepuestosModalEditarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [RepuestosModalGuardarComponent]
 })
 export class AppModule { }
