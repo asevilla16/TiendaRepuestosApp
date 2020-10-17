@@ -2,10 +2,8 @@ import { Categoria } from './../../models/categoria';
 import { RepuestosService } from './../../services/repuestos.service';
 import { Component, OnInit } from '@angular/core';
 import { Repuesto } from 'src/app/models/repuesto';
-import { RepuestosModalGuardarComponent } from './repuestos-modal-guardar/repuestos-modal-guardar.component';
 import { ToastrService } from 'ngx-toastr';
-
-declare var $: any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-repuestos',
@@ -19,7 +17,8 @@ export class RepuestosComponent implements OnInit {
   
   constructor(
     private repuestosService: RepuestosService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +28,7 @@ export class RepuestosComponent implements OnInit {
   obtenerRepuestos(){
     this.repuestosService.getRepuestos().subscribe(data => {
       this.repuestos = data;
+      console.log(this.repuestos);
     })
   }
 
@@ -41,12 +41,8 @@ export class RepuestosComponent implements OnInit {
     }
   }
 
-  showSaveModal(){
-    $("#myModal").modal('show');
-  }
-
-  showEditModal(){
-    $("#myEditModal").modal('show');
+  editar(id: Number){
+    this.router.navigate(['/repuestos/editar', id]);
   }
 
 }

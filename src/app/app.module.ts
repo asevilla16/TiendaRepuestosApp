@@ -8,10 +8,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { RepuestosComponent } from './features/repuestos/repuestos.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RepuestosModalGuardarComponent } from './features/repuestos/repuestos-modal-guardar/repuestos-modal-guardar.component';
-import { RepuestosModalEditarComponent } from './features/repuestos/repuestos-modal-editar/repuestos-modal-editar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditarRepuestoComponent } from './features/repuestos/editar-repuesto/editar-repuesto.component';
+import { ClientesComponent } from './features/clientes/clientes.component';
+import { AgregarClienteComponent } from './features/clientes/agregar-cliente/agregar-cliente.component';
+import { EditarClienteComponent } from './features/clientes/editar-cliente/editar-cliente.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HeaderComponent,
     RepuestosComponent,
     RepuestosModalGuardarComponent,
-    RepuestosModalEditarComponent
+    EditarRepuestoComponent,
+    ClientesComponent,
+    AgregarClienteComponent,
+    EditarClienteComponent
   ],
   imports: [
     BrowserModule,

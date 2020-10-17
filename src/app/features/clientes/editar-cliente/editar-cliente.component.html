@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row">
+        <h4 class="modal-title mt-3">Actualizar Cliente</h4>
+    </div>
+
+    <form>
+        <div class="form-row mt-3">
+            <div class="form-group col-md-6">
+                <label for="">Nombres: </label>
+                <input name="nombres" type="text" [(ngModel)]="cliente.nombres" id="nombres" class="form-control"
+                    placeholder="Nombres" aria-label="nombres">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="">Apellidos: </label>
+                <input name="apellidos" type="text" [(ngModel)]="cliente.apellidos" id="apellidos" class="form-control"
+                    placeholder="Apellidos" aria-label="apellidos">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Telefono: </label>
+                <input name="telefono" type="text" [(ngModel)]="cliente.telefono" id="telefono"
+                    class="form-control" placeholder="Telefono del cliente">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="">Correo: </label>
+                <input name="correo" type="text" [(ngModel)]="cliente.correo" id="correo"
+                    class="form-control" placeholder="Correo del cliente">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" (click)="editarCliente()">Agregar</button>
+        <button type="submit" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+    </form>
+</div>

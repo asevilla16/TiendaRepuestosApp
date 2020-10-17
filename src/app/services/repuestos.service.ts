@@ -1,7 +1,7 @@
 import { Repuesto } from './../models/repuesto';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 export class RepuestosService {
 
   APIUrl = "https://localhost:44350/api/repuestos";
+
+  private updateForm = new BehaviorSubject<Repuesto>({} as any);
 
   constructor(private http: HttpClient) { }
 
@@ -31,5 +33,4 @@ export class RepuestosService {
   deleteRepuesto(id: Number){
     return this.http.delete(this.APIUrl + '/' + id);
   }
-
 }

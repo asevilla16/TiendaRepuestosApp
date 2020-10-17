@@ -1,45 +1,44 @@
 <div class="container">
     <div class="row">
-        <h4 class="modal-title mt-3">Agregar Repuesto</h4>
+        <h4 class="modal-title mt-3">Actualizar Repuesto</h4>
     </div>
 
-    <form [formGroup]="formulario">
+    <form>
         <div class="form-row mt-3">
             <div class="form-group col-md-6">
                 <label for="">Codigo: </label>
-                <input name="codigo" type="text" formControlName="Codigo" id="codigo" class="form-control"
+                <input name="codigo" type="text" [(ngModel)]="repuesto.codigo" id="codigo" class="form-control"
                     placeholder="Codigo" aria-label="Codigo">
             </div>
             <div class="form-group col-md-6">
                 <label for="">Nombre: </label>
-                <input name="nombre" type="text" formControlName="Nombre" id="nombre" class="form-control"
+                <input name="nombre" type="text" [(ngModel)]="repuesto.nombre" id="nombre" class="form-control"
                     placeholder="Nombre" aria-label="Nombre">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="">Precio de compra: </label>
-                <input name="precioCompra" type="number" formControlName="PrecioCompra" id="precioCompra"
+                <input name="precioCompra" type="number" [(ngModel)]="repuesto.precioCompra" id="precioCompra"
                     class="form-control" placeholder="Precio de Compra">
             </div>
             <div class="form-group col-md-6">
                 <label for="">Precio de Venta: </label>
-                <input name="precioVenta" type="number" formControlName="PrecioVenta" id="precioVenta"
+                <input name="precioVenta" type="number" [(ngModel)]="repuesto.precioVenta" id="precioVenta"
                     class="form-control" placeholder="Precio de Venta">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="">Tipo de Repuesto </label>
-                <select name="categoria" id="categoria" class="form-control" formControlName="idCategoria">
+                <select name="categoria" id="categoria" class="form-control" [(ngModel)]="repuesto.idCategoria">
                     <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.descripcion }}
                     </option>
                 </select>
             </div>
 
         </div>
-
-        <button type="submit" class="btn btn-primary mr-1" (click)="guardar()">Agregar</button>
-        <button type="submit" class="btn btn-danger" (click)="cancelar()">Salir</button>
+        <button type="submit" class="btn btn-primary" (click)="editarRepuesto()">Agregar</button>
+        <button type="submit" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
     </form>
 </div>
