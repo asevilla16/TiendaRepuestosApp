@@ -12,6 +12,7 @@ import { ClientesService } from 'src/app/services/clientes.service';
 export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
+  filtroCli = '';
 
   constructor(
     private clienteService: ClientesService,
@@ -21,7 +22,7 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerClientes();
-    console.log(this.clientes)
+    console.warn(this.clientes)
   }
 
   obtenerClientes(){

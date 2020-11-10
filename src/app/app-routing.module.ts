@@ -6,8 +6,10 @@ import { EditarRepuestoComponent } from './features/repuestos/editar-repuesto/ed
 import { ClientesComponent } from './features/clientes/clientes.component';
 import { AgregarClienteComponent } from './features/clientes/agregar-cliente/agregar-cliente.component';
 import { EditarClienteComponent } from './features/clientes/editar-cliente/editar-cliente.component';
+import { HomeComponent } from './features/home/home.component';
 
 const routes: Routes = [
+  {path: '', component: HomeComponent},
   {path: 'repuestos', component: RepuestosComponent},
   {path: 'repuestos/agregar', component: RepuestosModalGuardarComponent},
   {path: 'repuestos/editar/:id', component: EditarRepuestoComponent},

@@ -15,6 +15,9 @@ import { EditarRepuestoComponent } from './features/repuestos/editar-repuesto/ed
 import { ClientesComponent } from './features/clientes/clientes.component';
 import { AgregarClienteComponent } from './features/clientes/agregar-cliente/agregar-cliente.component';
 import { EditarClienteComponent } from './features/clientes/editar-cliente/editar-cliente.component';
+import { RepuestosFilterPipe } from './pipes/repuestos-filter.pipe';
+import { ClientesFilterPipe } from './pipes/clientes-filter.pipe';
+import { HomeComponent } from './features/home/home.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { EditarClienteComponent } from './features/clientes/editar-cliente/edita
     EditarRepuestoComponent,
     ClientesComponent,
     AgregarClienteComponent,
-    EditarClienteComponent
+    EditarClienteComponent,
+    RepuestosFilterPipe,
+    ClientesFilterPipe,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

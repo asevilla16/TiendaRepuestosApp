@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Cliente } from 'src/app/models/cliente';
 import { ClientesService } from 'src/app/services/clientes.service';
 
@@ -15,7 +16,8 @@ export class EditarClienteComponent implements OnInit {
   constructor(
     private clienteService: ClientesService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) { 
     this.cliente = new Cliente();
   }
@@ -31,6 +33,7 @@ export class EditarClienteComponent implements OnInit {
 
   editarCliente(){
     this.clienteService.putCliente(this.cliente).subscribe(() => {
+      this.toastr.success("El registro fue modificado satisfactoriamente. ", "Registro Modificado. ")
       this.router.navigate(['/clientes']);
     })
   }

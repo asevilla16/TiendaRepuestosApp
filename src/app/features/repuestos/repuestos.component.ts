@@ -14,6 +14,7 @@ export class RepuestosComponent implements OnInit {
 
   repuestos: Repuesto[];
   categorias: Categoria[];
+  filtroRep = '';
   
   constructor(
     private repuestosService: RepuestosService,
