@@ -18,6 +18,12 @@ import { EditarClienteComponent } from './features/clientes/editar-cliente/edita
 import { RepuestosFilterPipe } from './pipes/repuestos-filter.pipe';
 import { ClientesFilterPipe } from './pipes/clientes-filter.pipe';
 import { HomeComponent } from './features/home/home.component';
+import { CategoriasComponent } from './features/categorias/categorias.component';
+import { AgregarCategoriaComponent } from './features/categorias/agregar-categoria/agregar-categoria.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { InventarioComponent } from './features/inventario/inventario.component';
+import { AgregarInventarioComponent } from './features/inventario/agregar-inventario/agregar-inventario.component';
+import { EditarInventarioComponent } from './features/inventario/editar-inventario/editar-inventario.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +38,12 @@ import { HomeComponent } from './features/home/home.component';
     EditarClienteComponent,
     RepuestosFilterPipe,
     ClientesFilterPipe,
-    HomeComponent
+    HomeComponent,
+    CategoriasComponent,
+    AgregarCategoriaComponent,
+    InventarioComponent,
+    AgregarInventarioComponent,
+    EditarInventarioComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +52,7 @@ import { HomeComponent } from './features/home/home.component';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgxPaginationModule,
     ToastrModule.forRoot()
   ],
   providers: [],

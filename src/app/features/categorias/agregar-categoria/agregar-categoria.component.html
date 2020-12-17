@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+        <h4 class="modal-title mt-3">Nueva categoria</h4>
+    </div>
+
+    <form [formGroup]="formulario">
+        <div class="form-row mt-3">
+            <div class="form-group col-md-6">
+                <label for="">Categoria: </label>
+                <input name="codigo" type="text" formControlName="descripcion" id="codigo" class="form-control"
+                    placeholder="Nombres" aria-label="Codigo">
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary mr-1" (click)="guardar()">Agregar</button>
+        <button type="submit" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+    </form>
+</div>

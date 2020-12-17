@@ -14,6 +14,8 @@ export class ClientesComponent implements OnInit {
   clientes: Cliente[];
   filtroCli = '';
 
+  pActual: number = 1;
+
   constructor(
     private clienteService: ClientesService,
     private toastr: ToastrService,
@@ -22,7 +24,7 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerClientes();
-    console.warn(this.clientes)
+    // console.warn(this.clientes)
   }
 
   obtenerClientes(){
@@ -43,5 +45,7 @@ export class ClientesComponent implements OnInit {
   editar(id: Number){
     this.route.navigate(['/clientes/editar', id])
   }
+
+  
 
 }

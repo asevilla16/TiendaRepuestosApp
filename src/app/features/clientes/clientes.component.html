@@ -31,8 +31,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let cliente of clientes | clientesFilter:filtroCli">
-            <td>{{ cliente.id }}</td>
+        <tr *ngFor="let cliente of clientes | clientesFilter:filtroCli | paginate: {itemsPerPage: 10, currentPage: pActual} ; let i = index">
+            <td>{{ i + 1 }}</td>
             <td>{{ cliente.nombres }}  {{ cliente.apellidos }}</td>
             <td>{{ cliente.telefono }}</td>
             <td>{{ cliente.correo }}</td>
@@ -45,3 +45,5 @@
         </tr>
     </tbody>
 </table>
+
+<pagination-controls (pageChange)="pActual = $event"></pagination-controls>

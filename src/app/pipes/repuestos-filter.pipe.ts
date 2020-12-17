@@ -6,9 +6,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class RepuestosFilterPipe implements PipeTransform {
 
   transform(value: any, arg: any): any {
+    if(arg === '') return value;
     const resultRep = [];
-    for(let rep of value){
+    for(const rep of value){
       if(rep.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1){
+        resultRep.push(rep);
+      };
+      if(rep.codigo.toLowerCase().indexOf(arg.toLowerCase()) > -1){
         resultRep.push(rep);
       };
     };

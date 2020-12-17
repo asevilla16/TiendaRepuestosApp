@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <h4 class="modal-title mt-3">Nuevo Registro de existencia</h4>
+    </div>
+
+    <form>
+        <div class="form-row mt-3">
+            <div class="form-group col-md-6">
+                <label for="">Repuesto: </label>
+                <select name="categoria" id="categoria" class="form-control" [(ngModel)]="inventario.idRepuesto">
+                    <option *ngFor="let repuesto of repuestos" [value]="repuesto.id">{{ repuesto.nombre }}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="">Cantidad: </label>
+                <input name="nombre" type="number" [(ngModel)]="inventario.cantidad" class="form-control"
+                    placeholder="Nombre">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mr-1" (click)="editar()">Agregar</button>
+        <button type="submit" class="btn btn-danger" (click)="cancelar()">Salir</button>
+    </form>
+</div>

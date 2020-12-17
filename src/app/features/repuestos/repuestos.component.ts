@@ -15,6 +15,8 @@ export class RepuestosComponent implements OnInit {
   repuestos: Repuesto[];
   categorias: Categoria[];
   filtroRep = '';
+
+  pagActual: number = 1;
   
   constructor(
     private repuestosService: RepuestosService,
@@ -29,7 +31,6 @@ export class RepuestosComponent implements OnInit {
   obtenerRepuestos(){
     this.repuestosService.getRepuestos().subscribe(data => {
       this.repuestos = data;
-      console.log(this.repuestos);
     })
   }
 

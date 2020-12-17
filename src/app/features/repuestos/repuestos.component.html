@@ -6,6 +6,11 @@
             <i class="fa fa-plus"></i>  Nuevo
         </button>
     </div>
+    <div class="col-md-3 ml-8">
+        <button type="button" class="btn btn-primary" routerLink="/categorias/agregar">
+            <i class="fa fa-plus"></i>  Agregar Categoria
+        </button>
+    </div>
 </div>
 <div class="row mt-2">
     <div class="col">
@@ -31,8 +36,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let repuesto of repuestos | repuestosFilter:filtroRep">
-                    <td>{{ repuesto.id }}</td>
+                <tr *ngFor="let repuesto of repuestos | repuestosFilter:filtroRep | paginate: {itemsPerPage: 10, currentPage: pagActual} ; index as i">
+                    <td>{{ i+1 }}</td>
                     <td>{{ repuesto.codigo }}</td>
                     <td>{{ repuesto.nombre | uppercase }}</td>
                     <td>{{ repuesto.categoria.descripcion }}</td>
@@ -45,5 +50,7 @@
                 </tr>
             </tbody>
         </table>
+
+        <pagination-controls (pageChange)="pagActual = $event"></pagination-controls>
     </div>
 </div>
