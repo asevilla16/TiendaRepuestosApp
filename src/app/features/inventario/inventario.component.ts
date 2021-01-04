@@ -13,6 +13,7 @@ export class InventarioComponent implements OnInit {
 
   inventarios: Inventario[];
 
+  filtroInv = '';
 
   invId: any;
 

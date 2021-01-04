@@ -24,6 +24,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { InventarioComponent } from './features/inventario/inventario.component';
 import { AgregarInventarioComponent } from './features/inventario/agregar-inventario/agregar-inventario.component';
 import { EditarInventarioComponent } from './features/inventario/editar-inventario/editar-inventario.component';
+import { InventarioFilterPipe } from './pipes/inventario-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { EditarInventarioComponent } from './features/inventario/editar-inventar
     AgregarCategoriaComponent,
     InventarioComponent,
     AgregarInventarioComponent,
-    EditarInventarioComponent
+    EditarInventarioComponent,
+    InventarioFilterPipe
   ],
   imports: [
     BrowserModule,
