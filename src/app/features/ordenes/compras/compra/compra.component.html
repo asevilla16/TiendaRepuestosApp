@@ -1,0 +1,80 @@
+<div class="row">
+    <span class="h4 m-3">Orden de compra</span>
+</div>
+
+<form autocomplete="off">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Order No.</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">#</div>
+                    </div>
+                    <input name="OrderNo" [value]="ordenCompra?.id" class="form-control" readonly>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label>Proveedor</label>
+                <input name="proveedor" [value]="ordenCompra.proveedor.nombre" class="form-control" readonly>
+            </div> -->
+            <div class="form-group">
+                <label>Proveedor</label>
+                <select name="proveedor" class="form-control">
+                    <option [value]="ordenCompra?.proveedor?.id" selected>{{ordenCompra?.proveedor?.nombre}}</option>
+                    <option *ngFor="let p of proveedores" [value]="p.id" >{{p.nombre}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Fecha de compra: </label>
+                <input type="date" name="fecha" [value]="ordenCompra.fecha | date: 'yyyy-MM-dd'" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Gran Total</label>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">$</div>
+                    </div>
+                    <input name="GTotal" class="form-control" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details table -->
+
+    <table class="table table-borderless">
+        <thead class="thead-light">
+            <th>Codigo</th>
+            <th>Repuesto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>
+                <a class="btn btn-sm btn-success text-white" (click)="addItemToOrder()"><i class="fa fa-plus"></i> Add Item</a>
+            </th>
+        </thead>
+        <tbody>
+            <tr *ngIf="ordenCompra?.detallesCompra?.length==0">
+                <td class="font-italic text-center" colspan="5">
+                    No food item selected for this order.
+                </td>
+            </tr>
+
+            <tr *ngFor="let item of ordenCompra.detallesCompra;let i=index;">
+                <td>{{item?.repuesto?.codigo}}</td>
+                <td>{{item?.repuesto?.nombre}}</td>
+                <td>{{item?.repuesto?.precioCompra}}</td>
+                <td>{{item?.cantidad}}</td>
+                <td>{{item?.cantidad * item?.repuesto?.precioCompra}}</td>
+                <td>
+                    <a class="btn btn-sm btn-info text-white"><i class="fa fa-pencil"></i></a>
+                    <a class="btn btn-sm btn-danger text-white ml-1"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

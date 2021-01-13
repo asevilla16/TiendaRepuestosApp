@@ -1,0 +1,58 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
+    <mat-toolbar color="primary" class="example-toolbar">
+      <button mat-icon-button (click)="snav.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1 class="example-app-name">Electripartes Castillo</h1>
+    </mat-toolbar>
+  
+    <mat-sidenav-container class="example-sidenav-container"
+                           [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav mat-elevation-z8 [(opened)]="opened" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+        <mat-nav-list>
+          <a mat-list-item [routerLink]="nav.route" *ngFor="let nav of fillerNav">
+          <mat-icon class="mr-2">{{nav.icon}}</mat-icon>
+            {{nav.name}}</a>
+        </mat-nav-list>
+
+        <!-- <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>local_shipping</mat-icon>
+                Ordenes
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+        </mat-accordion> -->
+
+        <mat-nav-list>
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li>
+              <div class="dropend">
+                <a mat-list-item href="#" data-toggle="dropdown"
+                >
+                <mat-icon class="mr-2">shopping_cart</mat-icon>
+                  Ordenes
+                <mat-icon class="ml-3">arrow_drop_down</mat-icon>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" routerLink="/ordenes/compras">Ordenes de Compra</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" routerLink="/ordenes/ventas">Ordenes de venta</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </mat-nav-list>
+
+      </mat-sidenav>
+  
+      <mat-sidenav-content>
+          <div class="container">
+              <router-outlet></router-outlet>
+          </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

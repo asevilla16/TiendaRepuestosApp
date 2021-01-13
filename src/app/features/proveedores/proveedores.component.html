@@ -1,0 +1,46 @@
+<h1>Listado de proveedores</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        <button type="button" (click)="crearProveedor()" class="btn btn-primary">
+            <i class="fa fa-plus"></i> Nuevo
+        </button>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col">
+        <div class="input-group">
+            <div class="input-group-text bg-white">
+                <i class="fas fa-search"></i>
+            </div>
+            <input type="text" class="form-control" placeholder="Buscar...">
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped table-hover mt-2">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let p of proveedores; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.telefono }}</td>
+            <td>{{ p.correo }}</td>
+            <td>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-info"><i class="fas fa-pencil-alt"></i></button>
+                    <button type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

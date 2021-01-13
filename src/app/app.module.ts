@@ -25,6 +25,13 @@ import { InventarioComponent } from './features/inventario/inventario.component'
 import { AgregarInventarioComponent } from './features/inventario/agregar-inventario/agregar-inventario.component';
 import { EditarInventarioComponent } from './features/inventario/editar-inventario/editar-inventario.component';
 import { InventarioFilterPipe } from './pipes/inventario-filter.pipe';
+import { LayoutComponent } from './layout/layout.component';
+import { MaterialModule } from './material/material.module';
+import { ComprasComponent } from './features/ordenes/compras/compras.component';
+import { VentasComponent } from './features/ordenes/ventas/ventas.component';
+import { CompraComponent } from './features/ordenes/compras/compra/compra.component';
+import { DetalleCompraComponent } from './features/ordenes/compras/detalle-compra/detalle-compra.component';
+import { ProveedoresComponent } from './features/proveedores/proveedores.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +52,13 @@ import { InventarioFilterPipe } from './pipes/inventario-filter.pipe';
     InventarioComponent,
     AgregarInventarioComponent,
     EditarInventarioComponent,
-    InventarioFilterPipe
+    InventarioFilterPipe,
+    LayoutComponent,
+    ComprasComponent,
+    VentasComponent,
+    CompraComponent,
+    DetalleCompraComponent,
+    ProveedoresComponent
   ],
   imports: [
     BrowserModule,
@@ -55,10 +68,11 @@ import { InventarioFilterPipe } from './pipes/inventario-filter.pipe';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgxPaginationModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [RepuestosModalGuardarComponent]
+  entryComponents: [DetalleCompraComponent]
 })
 export class AppModule { }

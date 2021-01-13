@@ -1,11 +1,11 @@
 import { Categoria } from './categoria';
 
 export class Repuesto{
-    id?: Number;
+    id?: number;
     codigo: String;
     nombre: String;
-    precioCompra: Number;
-    precioVenta: Number;
-    idCategoria: Number;
+    precioCompra: number;
+    precioVenta: number;
+    idCategoria: number;
     Categoria?: Categoria;
 }

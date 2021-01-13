@@ -13,6 +13,11 @@ import { AgregarCategoriaComponent } from './features/categorias/agregar-categor
 import { InventarioComponent } from './features/inventario/inventario.component';
 import { AgregarInventarioComponent } from './features/inventario/agregar-inventario/agregar-inventario.component';
 import { EditarInventarioComponent } from './features/inventario/editar-inventario/editar-inventario.component';
+import { ComprasComponent } from './features/ordenes/compras/compras.component';
+import { VentasComponent } from './features/ordenes/ventas/ventas.component';
+import { ProveedoresComponent } from './features/proveedores/proveedores.component';
+import { DetalleCompraComponent } from './features/ordenes/compras/detalle-compra/detalle-compra.component';
+import { CompraComponent } from './features/ordenes/compras/compra/compra.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -27,6 +32,11 @@ const routes: Routes = [
   {path: 'inventario', component: InventarioComponent},
   {path: 'inventario/agregar', component: AgregarInventarioComponent},
   {path: 'inventario/editar/:id', component: EditarInventarioComponent},
+  {path: 'ordenes/compras', component: ComprasComponent},
+  {path: 'ordenes/compras/detalles-compra/:id', component: CompraComponent},
+  {path: 'ordenes/ventas', component: VentasComponent},
+  {path: 'proveedores', component: ProveedoresComponent},
+  {path: '**', redirectTo: ''},
   
 ];
 
