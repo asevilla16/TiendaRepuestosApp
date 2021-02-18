@@ -6,7 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import { MatMenuModule } from "@angular/material/menu";
 
 
 
@@ -20,7 +20,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatIconModule,
     MatDialogModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule
   ],
   exports: [
     MatSidenavModule,
@@ -29,7 +30,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatIconModule,
     MatDialogModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

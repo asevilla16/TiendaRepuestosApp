@@ -70,7 +70,7 @@ export class ComprasComponent implements OnInit, OnDestroy {
   }
 
   crearOrdenCompra() {
-    console.log("Orden de compra creada");
+    this.router.navigate(['/ordenes/compras/agregar']);
   }
 
 }

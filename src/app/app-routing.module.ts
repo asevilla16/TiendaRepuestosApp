@@ -33,6 +33,7 @@ const routes: Routes = [
   {path: 'inventario/agregar', component: AgregarInventarioComponent},
   {path: 'inventario/editar/:id', component: EditarInventarioComponent},
   {path: 'ordenes/compras', component: ComprasComponent},
+  {path: 'ordenes/compras/agregar', component: CompraComponent},
   {path: 'ordenes/compras/detalles-compra/:id', component: CompraComponent},
   {path: 'ordenes/ventas', component: VentasComponent},
   {path: 'proveedores', component: ProveedoresComponent},

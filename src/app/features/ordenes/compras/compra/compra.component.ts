@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
@@ -18,10 +19,14 @@ import { DetalleCompraComponent } from '../detalle-compra/detalle-compra.compone
 })
 export class CompraComponent implements OnInit, OnDestroy {
 
+  title: string;
   orderId: any;
   proveedores: Proveedor[];
-
+  form: FormGroup;
   ordenCompra: Compra;
+  total: any;
+
+  dialogRef: MatDialogRef<DetalleCompraComponent>;
 
   private unsubscribe: Subject<void>;
 
@@ -31,30 +36,73 @@ export class CompraComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private repuestoService: RepuestosService,
     private proveedoresService: ProveedoresService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {
-    this.ordenCompra = new Compra();
+    this.ordenCompra = new Compra;
     this.unsubscribe = new Subject();
+    this.buildForm();
   }
 
   ngOnInit(): void {
+    this.getTitleAndAction();
+    this.obtenerOrdenCompra();
+    this.getProviders();
+  }
+
+  buildForm(){
+    this.form = this.formBuilder.group({
+      id: [0],
+      fecha: [new Date()],
+      grandTotal: [0],
+      idProveedor: [0],
+      detallesCompra: this.formBuilder.array([])
+    });
+  }
+
+  get detalles(){
+    return this.form.get('detallesCompra') as FormArray;
+  }
+
+  agregarDetalle(detalle: DetalleCompra){
+    const detalleFormGroup = this.formBuilder.group({
+      cantidad: detalle.cantidad,
+      idCompra: detalle.idCompra,
+      idRepuesto: detalle.idRepuesto,
+      total: detalle.total,
+    })
+    this.detalles.push(detalleFormGroup);
+    this.ordenCompra.detallesCompra.push(this.detalles.value);
+    this.obtenerRepuestosPorOrden();
+  }
+
+
+  getTitleAndAction(){
     this.orderId = this.route.snapshot.paramMap.get('id');
 
-    this.ordenCompraService.getOrdenCompra(this.orderId)
-      .pipe(
-        finalize(() => {
-          this.obtenerRepuestosPorOrden();
-        }),
-        takeUntil(this.unsubscribe)
-      )
-      .subscribe(
-        res => {
-          this.ordenCompra = res;
-          console.log(res);
-        }
-      );
+    if (this.orderId) {
+      this.title = "Editar Orden de compra";
+    } else {
+      this.title = "Nueva Orden de compra";
+    }
+  }
 
-    this.getProviders();
+  obtenerOrdenCompra(){
+    if (this.orderId) {
+      this.ordenCompraService.getOrdenCompra(this.orderId)
+        .pipe(
+          finalize(() => {
+            this.obtenerRepuestosPorOrden();
+          }),
+          takeUntil(this.unsubscribe)
+        )
+        .subscribe(
+          res => {
+            this.ordenCompra = res;
+            console.log(res);
+          }
+        );
+    }
   }
 
   obtenerRepuestosPorOrden() {
@@ -79,11 +127,36 @@ export class CompraComponent implements OnInit, OnDestroy {
       )
   }
 
-  addItemToOrder(){
+  addItemToOrder(repIndex, id, orderId){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = "50%";
-    this.dialog.open(DetalleCompraComponent, dialogConfig);
+    dialogConfig.data = {
+      repIndex,
+      id,
+      orderId
+    }
+    this.dialogRef = this.dialog.open(DetalleCompraComponent, dialogConfig);
+
+    this.dialogRef.afterClosed()
+      .subscribe((res: DetalleCompra) => {
+        console.log(res);
+        this.agregarDetalle(res);
+        console.log(this.form.value);
+        this.updateTotal();
+      });
+  }
+
+  updateTotal(){
+    this.ordenCompra.detallesCompra.forEach(detalle => {
+      this.total = (this.total + detalle.total);
+      console.log("el total es " + this.total);
+      this.form.controls.grandTotal.setValue = this.total;
+    })
+  }
+
+  submit(){
+    console.log(this.ordenCompra);
   }
 
   ngOnDestroy() {

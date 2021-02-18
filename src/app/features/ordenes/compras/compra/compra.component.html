@@ -1,8 +1,16 @@
 <div class="row">
-    <span class="h4 m-3">Orden de compra</span>
+    <span class="h4 m-3">{{ title }}</span>
 </div>
 
-<form autocomplete="off">
+<div class="row mb-3">
+    <div class="col-md-3">
+        <button type="button" (click)="submit()" class="btn btn-primary">
+            <i class="fa fa-plus"></i> Guardar
+        </button>
+    </div>
+</div>
+
+<form [formGroup]="form">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -11,17 +19,12 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">#</div>
                     </div>
-                    <input name="OrderNo" [value]="ordenCompra?.id" class="form-control" readonly>
+                    <input name="OrderNo" formControlName="id" class="form-control" readonly>
                 </div>
             </div>
-            <!-- <div class="form-group">
-                <label>Proveedor</label>
-                <input name="proveedor" [value]="ordenCompra.proveedor.nombre" class="form-control" readonly>
-            </div> -->
             <div class="form-group">
                 <label>Proveedor</label>
-                <select name="proveedor" class="form-control">
-                    <option [value]="ordenCompra?.proveedor?.id" selected>{{ordenCompra?.proveedor?.nombre}}</option>
+                <select name="proveedor" formControlName="idProveedor" class="form-control">
                     <option *ngFor="let p of proveedores" [value]="p.id" >{{p.nombre}}</option>
                 </select>
             </div>
@@ -38,7 +41,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">$</div>
                     </div>
-                    <input name="GTotal" class="form-control" readonly>
+                    <input name="GTotal" formControlName="grandTotal" class="form-control" readonly>
                 </div>
             </div>
         </div>
@@ -54,24 +57,28 @@
             <th>Cantidad</th>
             <th>Total</th>
             <th>
-                <a class="btn btn-sm btn-success text-white" (click)="addItemToOrder()"><i class="fa fa-plus"></i> Add Item</a>
+                <a class="btn btn-sm btn-success text-white" (click)="addItemToOrder(null, null, ordenCompra.id)"><i class="fa fa-plus"></i> Add Item</a>
             </th>
         </thead>
         <tbody>
             <tr *ngIf="ordenCompra?.detallesCompra?.length==0">
                 <td class="font-italic text-center" colspan="5">
-                    No food item selected for this order.
+                    No hay ningun repuesto seleccionado para esta orden.
                 </td>
             </tr>
 
             <tr *ngFor="let item of ordenCompra.detallesCompra;let i=index;">
-                <td>{{item?.repuesto?.codigo}}</td>
+                <td>
+                    <select name="proveedor" class="form-control">
+                        <option *ngFor="let p of proveedores" [value]="p.id" >{{p.nombre}}</option>
+                    </select>
+                </td>
                 <td>{{item?.repuesto?.nombre}}</td>
                 <td>{{item?.repuesto?.precioCompra}}</td>
                 <td>{{item?.cantidad}}</td>
-                <td>{{item?.cantidad * item?.repuesto?.precioCompra}}</td>
+                <td>{{item.total}}</td>
                 <td>
-                    <a class="btn btn-sm btn-info text-white"><i class="fa fa-pencil"></i></a>
+                    <a class="btn btn-sm btn-info text-white" (click)="addItemToOrder(i, item?.id, ordenCompra.id)"><i class="fa fa-pencil"></i></a>
                     <a class="btn btn-sm btn-danger text-white ml-1"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
