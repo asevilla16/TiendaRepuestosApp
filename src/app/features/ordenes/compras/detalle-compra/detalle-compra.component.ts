@@ -45,7 +45,7 @@ export class DetalleCompraComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data)
-    this.getDetailById(this.data.id);
+    this.loadForm(this.data.item);
   }
 
   getRepuestos() {
@@ -59,27 +59,30 @@ export class DetalleCompraComponent implements OnInit {
       )
   }
 
-  getDetailById(id) {
-    if(this.data.id){
-      this._detalleOrdenCompraService.getDetailById(id)
-        .subscribe(
-          detail => {
-            this.loadForm(detail);
-            console.warn(detail);
-          }
-        )
-    }
-  }
+  // getDetailById(id) {
+  //   if(this.data.id){
+  //     this._detalleOrdenCompraService.getDetailById(id)
+  //       .subscribe(
+  //         detail => {
+  //           this.loadForm(detail);
+  //           console.warn(detail);
+  //         }
+  //       )
+  //   }
+  // }
 
   loadForm(detalle: DetalleCompra) {
-    this.repuestoForm.patchValue({
-      id: detalle.id,
-      cantidad: detalle.cantidad,
-      idCompra: detalle.idCompra,
-      precioCompra: detalle.repuesto.precioCompra,
-      idRepuesto: detalle.idRepuesto,
-      total: detalle.total
-    });
+    if(this.data.repIndex != null){
+      this.repuestoForm.patchValue({
+        id: detalle.id,
+        cantidad: detalle.cantidad,
+        idCompra: detalle.idCompra,
+        precioCompra: detalle.repuesto.precioCompra,
+        idRepuesto: detalle.idRepuesto,
+        total: detalle.total
+      });
+    }
+    console.log(this.repuestoForm);
   }
 
   clearForm() {
@@ -101,15 +104,12 @@ export class DetalleCompraComponent implements OnInit {
   }
 
   submit() {
-    let detalle: DetalleCompra = {
-      id: this.repuestoForm.get('id').value,
-      cantidad: this.repuestoForm.get('cantidad').value,
-      idCompra: this.repuestoForm.get('idCompra').value,
-      idRepuesto: this.repuestoForm.get('idRepuesto').value,
-      total: this.repuestoForm.get('total').value
-    }
+    let detalle: DetalleCompra = this.repuestoForm.value;
+    return detalle;
+  }
 
-    this.dialogRef.close(detalle);
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 

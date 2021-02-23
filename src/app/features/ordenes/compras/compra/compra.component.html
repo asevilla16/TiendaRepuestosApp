@@ -4,13 +4,13 @@
 
 <div class="row mb-3">
     <div class="col-md-3">
-        <button type="button" (click)="submit()" class="btn btn-primary">
+        <button type="button" (click)="onSubmit()" class="btn btn-primary">
             <i class="fa fa-plus"></i> Guardar
         </button>
     </div>
 </div>
 
-<form [formGroup]="form">
+<form>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -19,12 +19,12 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">#</div>
                     </div>
-                    <input name="OrderNo" formControlName="id" class="form-control" readonly>
+                    <input name="OrderNo" [(ngModel)]="ordenCompra.id" class="form-control" readonly>
                 </div>
             </div>
             <div class="form-group">
                 <label>Proveedor</label>
-                <select name="proveedor" formControlName="idProveedor" class="form-control">
+                <select name="proveedor" [(ngModel)]="ordenCompra.idProveedor" class="form-control">
                     <option *ngFor="let p of proveedores" [value]="p.id" >{{p.nombre}}</option>
                 </select>
             </div>
@@ -32,16 +32,26 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Fecha de compra: </label>
-                <input type="date" name="fecha" [value]="ordenCompra.fecha | date: 'yyyy-MM-dd'" class="form-control">
+                <input type="date" name="fecha" [ngModel]="ordenCompra.fecha | date: 'yyyy-MM-dd'" (ngModelChange)="ordenCompra.fecha = $event" class="form-control">
             </div>
             <div class="form-group">
                 <label>Gran Total</label>
-
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">$</div>
                     </div>
-                    <input name="GTotal" formControlName="grandTotal" class="form-control" readonly>
+                    <input name="GTotal" [(ngModel)]="ordenCompra.grandTotal" class="form-control" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Estado: </label>
+                <div class="input-group">
+                    <select name="estado" [(ngModel)]="ordenCompra.estado" class="form-control">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -67,18 +77,14 @@
                 </td>
             </tr>
 
-            <tr *ngFor="let item of ordenCompra.detallesCompra;let i=index;">
-                <td>
-                    <select name="proveedor" class="form-control">
-                        <option *ngFor="let p of proveedores" [value]="p.id" >{{p.nombre}}</option>
-                    </select>
-                </td>
+            <tr *ngFor="let item of ordenCompra?.detallesCompra;let i=index;">
+                <td>{{item?.repuesto?.codigo}}</td>
                 <td>{{item?.repuesto?.nombre}}</td>
                 <td>{{item?.repuesto?.precioCompra}}</td>
                 <td>{{item?.cantidad}}</td>
                 <td>{{item.total}}</td>
                 <td>
-                    <a class="btn btn-sm btn-info text-white" (click)="addItemToOrder(i, item?.id, ordenCompra.id)"><i class="fa fa-pencil"></i></a>
+                    <a class="btn btn-sm btn-info text-white" (click)="addItemToOrder(i, item, ordenCompra.id)"><i class="fa fa-pencil"></i></a>
                     <a class="btn btn-sm btn-danger text-white ml-1"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>

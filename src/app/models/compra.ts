@@ -2,10 +2,12 @@ import { DetalleCompra } from "./detalle-compra";
 import { Proveedor } from "./proveedor";
 
 export class Compra {
-    id: number;
+    id?: number;
     fecha: Date;
     grandTotal: number;
+    estado: string;
     idProveedor: number;
-    proveedor: Proveedor;
+    proveedor?: Proveedor;
     detallesCompra: DetalleCompra[];
+
 }

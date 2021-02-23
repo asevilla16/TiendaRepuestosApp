@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -11,7 +10,8 @@ import { OrdenCompraService } from 'src/app/services/orden-compra.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { RepuestosService } from 'src/app/services/repuestos.service';
 import { DetalleCompraComponent } from '../detalle-compra/detalle-compra.component';
-
+import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-compra',
   templateUrl: './compra.component.html',
@@ -22,7 +22,6 @@ export class CompraComponent implements OnInit, OnDestroy {
   title: string;
   orderId: any;
   proveedores: Proveedor[];
-  form: FormGroup;
   ordenCompra: Compra;
   total: any;
 
@@ -37,11 +36,10 @@ export class CompraComponent implements OnInit, OnDestroy {
     private repuestoService: RepuestosService,
     private proveedoresService: ProveedoresService,
     private dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private toastr: ToastrService
   ) {
-    this.ordenCompra = new Compra;
+    this.ordenCompra = new Compra();
     this.unsubscribe = new Subject();
-    this.buildForm();
   }
 
   ngOnInit(): void {
@@ -50,34 +48,7 @@ export class CompraComponent implements OnInit, OnDestroy {
     this.getProviders();
   }
 
-  buildForm(){
-    this.form = this.formBuilder.group({
-      id: [0],
-      fecha: [new Date()],
-      grandTotal: [0],
-      idProveedor: [0],
-      detallesCompra: this.formBuilder.array([])
-    });
-  }
-
-  get detalles(){
-    return this.form.get('detallesCompra') as FormArray;
-  }
-
-  agregarDetalle(detalle: DetalleCompra){
-    const detalleFormGroup = this.formBuilder.group({
-      cantidad: detalle.cantidad,
-      idCompra: detalle.idCompra,
-      idRepuesto: detalle.idRepuesto,
-      total: detalle.total,
-    })
-    this.detalles.push(detalleFormGroup);
-    this.ordenCompra.detallesCompra.push(this.detalles.value);
-    this.obtenerRepuestosPorOrden();
-  }
-
-
-  getTitleAndAction(){
+  getTitleAndAction() {
     this.orderId = this.route.snapshot.paramMap.get('id');
 
     if (this.orderId) {
@@ -87,7 +58,7 @@ export class CompraComponent implements OnInit, OnDestroy {
     }
   }
 
-  obtenerOrdenCompra(){
+  obtenerOrdenCompra() {
     if (this.orderId) {
       this.ordenCompraService.getOrdenCompra(this.orderId)
         .pipe(
@@ -98,10 +69,27 @@ export class CompraComponent implements OnInit, OnDestroy {
         )
         .subscribe(
           res => {
-            this.ordenCompra = res;
+            this.ordenCompra = {
+              id: res.id,
+              fecha: res.fecha,
+              grandTotal: res.grandTotal,
+              estado: res.estado,
+              idProveedor: res.idProveedor,
+              detallesCompra: res.detallesCompra,
+              proveedor: res.proveedor
+            };
             console.log(res);
           }
         );
+    } else {
+      this.ordenCompra = {
+        id: 0,
+        fecha: new Date(),
+        grandTotal: 0,
+        estado: '',
+        idProveedor: 0,
+        detallesCompra: []
+      }
     }
   }
 
@@ -127,41 +115,109 @@ export class CompraComponent implements OnInit, OnDestroy {
       )
   }
 
-  addItemToOrder(repIndex, id, orderId){
+  addItemToOrder(repIndex: number, item: DetalleCompra, orderId: number) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = "50%";
     dialogConfig.data = {
       repIndex,
-      id,
+      item,
       orderId
     }
     this.dialogRef = this.dialog.open(DetalleCompraComponent, dialogConfig);
 
     this.dialogRef.afterClosed()
-      .subscribe((res: DetalleCompra) => {
-        console.log(res);
-        this.agregarDetalle(res);
-        console.log(this.form.value);
-        this.updateTotal();
+      .subscribe(res => {
+        if (res != null) {
+          if(repIndex == null){
+            this.ordenCompra.detallesCompra.push(res);
+          } else {
+            this.ordenCompra.detallesCompra[repIndex] = res;
+          }
+          this.obtenerRepuestosPorOrden();
+          this.updateTotal();
+        }
       });
   }
 
-  updateTotal(){
-    this.ordenCompra.detallesCompra.forEach(detalle => {
-      this.total = (this.total + detalle.total);
-      console.log("el total es " + this.total);
-      this.form.controls.grandTotal.setValue = this.total;
-    })
+  // updateTotal(){
+  //   this.ordenCompra.detallesCompra.forEach(detalle => {
+  //     this.total = (this.total + detalle.total);
+  //     console.log("el total es " + this.total);
+  //     this.ordenCompra.grandTotal = this.total;
+  //   })
+  // }
+
+  updateTotal() {
+    this.ordenCompra.grandTotal = this.ordenCompra.detallesCompra.reduce((prev, curr) => {
+      return prev + curr.total;
+    }, 0);
+    this.ordenCompra.grandTotal = parseFloat(this.ordenCompra.grandTotal.toFixed(2));
   }
 
-  submit(){
+  submit() {
     console.log(this.ordenCompra);
   }
 
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  onSubmit(){
+    if (!this.orderId){
+      this.create(this.ordenCompra);
+    } else {
+      this.update(this.ordenCompra)
+    }
+  }
+
+  create(order){
+    this.ordenCompraService.createOrdenCompra(order)
+      .pipe(
+        takeUntil(this.unsubscribe),
+        finalize(() => {
+          this.router.navigate(['/ordenes/compras']);
+        })
+      )
+      .subscribe(
+        res => {
+          this.toastr.success(
+            "Se ha creado la orden de compra",
+            "Orden Creada" 
+          )
+        },
+        error => {
+          this.toastr.error(
+            "Ha ocurrido un error",
+            "Error"
+          )
+        }
+      );
+  }
+
+  update(order){
+    this.ordenCompraService.editOrdenCompra(order)
+      .pipe(
+        takeUntil(this.unsubscribe),
+        finalize(() => {
+          this.router.navigate(['/ordenes/compras']);
+        })
+      )
+      .subscribe(
+        res => {
+          this.toastr.success(
+            "Se ha editado la orden de compra",
+            "Orden Editada" 
+          )
+        },
+        error => {
+          this.toastr.error(
+            "Ha ocurrido un error",
+            "Error"
+          )
+        }
+      )
   }
 
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Inventario } from '../models/inventario';
+import { Existencia, Inventario } from '../models/inventario';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class InventarioService {
     private http: HttpClient
   ) { }
 
-  getInventarios(): Observable<Inventario[]> {
-    return this.http.get<Inventario[]>(this.baseURL + this.APIUrl);
+  getInventarios(): Observable<Existencia[]> {
+    return this.http.get<Existencia[]>(this.baseURL + this.APIUrl);
   }
 
   getInventario(id): Observable<Inventario>{
