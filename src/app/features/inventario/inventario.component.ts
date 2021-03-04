@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { finalize, map, takeUntil } from "rxjs/operators";
 import { Inventario } from 'src/app/models/inventario';
 import { InventarioService } from 'src/app/services/inventario.service';
+import { RepuestosService } from 'src/app/services/repuestos.service';
 
 @Component({
   selector: 'app-inventario',
@@ -17,9 +20,13 @@ export class InventarioComponent implements OnInit {
 
   invId: any;
 
+  pActual: number = 1;
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private inventarioService: InventarioService,
+    private repuestoService: RepuestosService,
     private toastr: ToastrService,
     private route: Router
   ) { }
@@ -31,11 +38,27 @@ export class InventarioComponent implements OnInit {
 
   obtenerInventarios(){
     this.inventarioService.getInventarios()
+      .pipe(
+        takeUntil(this.unsubscribe),
+        finalize(() => {
+          this.obtenerInfoRepuestos();
+        })
+      )
       .subscribe(
         data => {
           this.inventarios = data;
         }
       )
+  }
+
+  obtenerInfoRepuestos() {
+    this.inventarios.forEach(response => {
+      this.repuestoService.getRepuesto(response.idRepuesto)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe(data => {
+          response.repuesto = data;
+        })
+    })
   }
 
   eliminarInventario(id: number){

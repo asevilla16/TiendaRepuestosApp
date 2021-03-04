@@ -4,5 +4,5 @@ export class Inventario{
     id: Number;
     cantidad: Number;
     idRepuesto: Number;
-    Repuesto: Repuesto
+    repuesto: Repuesto
 }
